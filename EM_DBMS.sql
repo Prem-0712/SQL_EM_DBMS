@@ -54,7 +54,8 @@ natural join clients_number;
 select * from clients_info
 natural join venues;
 
-select distinct
+create view venue_info as
+select distinct 
 	ci.client_id,
     ci.full_name,
     v.venue_name
@@ -66,10 +67,13 @@ join
     
 on 
 	ci.client_id = v.client_id;
+    
+select * from venue_info;
 
 select * from clients_info
 natural join tasks;
 
+create view tasks_info as
 select distinct
 	ci.client_id,
     ci.full_name,
@@ -83,9 +87,12 @@ join
     
 on 
 	ci.client_id = t.client_id;
+    
+select * from tasks_info;
 
 select * from events;
 
+create view events_info as
 select distinct
 	ci.client_id,
     ci.full_name,
@@ -99,6 +106,23 @@ join
     
 on 
 	ci.client_id = e.client_id;
+
+select * from events_info;
+
+SELECT 
+    e.event_name,
+    CONCAT(c.first_name, ' ', c.last_name) AS client_name,
+    v.venue_name,
+    t.task_name
+FROM 
+    events e
+JOIN 
+    clients_name c ON e.client_id = c.client_id
+JOIN 
+    venues v ON e.venue_id = v.venue_id
+JOIN 
+    tasks t ON e.task_id = t.task_id;
+
 
 select * from payments;
 
@@ -115,3 +139,35 @@ join
     
 on 
 	ci.client_id = p.client_id;
+    
+select * from clients_info;
+
+select * from events;
+
+select * from venues;
+
+select * from tasks;
+
+select * from payments;   
+
+create view every_info as
+select distinct 
+	ci.client_id,
+    ci.full_name,
+    e.event_name, 
+    v.venue_name,
+    t.task_name,
+    p.pay_status
+    
+FROM 
+    clients_info ci
+JOIN 
+    events e ON ci.client_id = e.client_id
+JOIN 
+    venues v ON e.venue_id = v.venue_id
+JOIN 
+    tasks t ON e.task_id = t.task_id
+JOIN 
+    payments p ON ci.client_id = p.client_id;
+    
+select * from every_info;
