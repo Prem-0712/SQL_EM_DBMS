@@ -171,3 +171,10 @@ JOIN
     payments p ON ci.client_id = p.client_id;
     
 select * from every_info;
+
+show tables; 
+
+desc clients_name;
+
+
+select full_name, event_name from every_info where pay_status =  (select pay_status from every_info where pay_status != "pending" and event_name = "Wedding Reception");
