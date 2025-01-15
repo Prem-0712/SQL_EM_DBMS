@@ -4,25 +4,75 @@ show tables ;
 
 desc clients_name;
 
+create table clients_name 
+(
+	client_id int auto_increment primary key,
+    first_name varchar(100) not null,
+    last_name varchar (100) not null
+);
+
 select * from clients_name;
 
 desc clients_number;
+
+create table clients_number
+(
+	client_id int,
+    client_numebr varchar ( 100 ),
+    foreign key ( client_id ) references clients_name ( client_id )
+);
 
 select * from clients_number;
 
 desc events;
 
+create table events
+(
+	event_id int auto_increment primary key,
+    event_name varchar ( 100 ) not null,
+    client_id int,
+    venue_id int,
+    task_id int,
+    foreign key ( client_id )references clients_name ( client_id ) on update cascade,
+    foreign key ( venue_id )references venues ( venue_id ) on update cascade,
+    foreign key ( task_id )references tasks ( task_id ) on update cascade
+);
+
 select * from events;
 
 desc venues;
+
+create table venues
+(
+	venue_id int auto_increment primary key,
+    venue_name varchar ( 100 ) not null,
+    client_id int,
+    foreign key ( client_id )references clients_name ( client_id )
+);
 
 select * from venues;
 
 desc tasks;
 
+create table tasks
+(
+	task_id int auto_increment primary key,
+    task_name varchar ( 100 ) not null,
+    client_id int,
+    foreign key ( client_id )references clients_name ( client_id )
+);
+
 select * from tasks;
 
 desc payments;
+
+create table payments
+(
+	pay_id int auto_increment primary key,
+    pay_status varchar ( 100 ) not null,
+    client_id int, 
+    foreign key ( client_id )references clients_name ( client_id )on update cascade
+);
 
 select * from payments;
 
