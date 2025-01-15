@@ -13,6 +13,13 @@ create table clients_name
 
 select * from clients_name;
 
+insert into clients_name ( first_name, last_name )
+values ( "Monique", "Diack" ),
+( "Sibilla", "Maryman" ),
+( "Willy", "Grigolashvill"),
+( "John", "Doe" ),
+( "Jane", "Smith" );
+
 desc clients_number;
 
 create table clients_number
