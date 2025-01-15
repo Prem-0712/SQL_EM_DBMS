@@ -29,6 +29,18 @@ create table clients_number
     foreign key ( client_id ) references clients_name ( client_id )
 );
 
+insert into clients_number ( client_id, client_number)
+values ( 1, "1094763928" ),
+( 1, "1935274936" ),
+( 2, "8329017564" ),
+( 3, "2745372910" ), 
+( 3, "4653729064" ),
+( 4, "1234567890" ),
+( 4, "9876543210" ),
+( 5, "5551234567" ), 
+( 5, "5559876543" ),
+( 5, "5551112222" );
+
 select * from clients_number;
 
 desc events;
@@ -47,6 +59,18 @@ create table events
 
 select * from events;
 
+insert into events ( event_name, client_id, venue_id, task_id )
+values ( "Wedding Reception", 1, 1, 1 ),
+( "Corporate Seminar", 3, 3, 2 ),
+( "Birthday Party", 2, 2, 3 ),
+( "Product Launch", 1, 4, 4 ),
+( "Charity Gala", 4, 5, 5 ),
+( "Engagement Ceremony", 3, 6, 6 ),
+( "Anniversary Dinner", 2, 7, 7 ),
+( "Fashion Show", 4, 8, 8 ),
+( "Music Festival", 5, 9, 9 ),
+( "Award Night", 5, 10, 10 );
+
 desc venues;
 
 create table venues
@@ -58,6 +82,18 @@ create table venues
 );
 
 select * from venues;
+
+insert into venues ( venue_name, client_id )
+values ( "Grand Banquet", 1 ),
+( "Sunset Ballroom", 2 ),
+( "Elite Conference", 3 ),
+( "Oceanview Hall", 5 ), 
+( "Skyview Terrace", 4 ),
+( "Royal Gardens", 3 ),
+( "Harmony Pavilion", 2 ),
+( "Moonlit Meadows", 1 ),
+( "Paradise Plaza", 5 ),
+( "Starlit Courtyard", 4 );
 
 desc tasks;
 
@@ -71,6 +107,18 @@ create table tasks
 
 select * from tasks;
 
+insert into tasks ( task_name, client_id )
+values ( "Catering Setup", 1 ),
+( "Audio-Visual Setup", 3 ),
+( "Decorations Setup", 2 ),
+( "Guest Management", 2 ),
+( "Lighting Setup", 4 ),
+( "Stage Design", 3 ),
+( "Photography Setup", 5 ),
+( "DJ and Music Setup", 4 ),
+( "Security Management", 1 ),
+( "VIP Area Management", 5 );
+
 desc payments;
 
 create table payments
@@ -82,6 +130,18 @@ create table payments
 );
 
 select * from payments;
+
+insert into payment ( pay_status, client_id )
+values ( "Paid", 1 ),
+( "Pending", 4 ),
+( "Pending", 2 ),
+( "Paid", 5 ),
+( "Pending", 3 ),
+( "Paid", 2 ),
+( "Paid", 3 ),
+( "Pending", 1 ),
+( "Paid", 4 ),
+( "Pending", 5 );
 
 CREATE VIEW clients_info AS
 SELECT 
@@ -235,3 +295,4 @@ desc clients_name;
 
 
 select full_name, event_name from every_info where pay_status =  (select pay_status from every_info where pay_status != "pending" and event_name = "Wedding Reception");
+
