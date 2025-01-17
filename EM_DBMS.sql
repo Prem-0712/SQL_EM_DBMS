@@ -314,3 +314,62 @@ HAVING
 select distinct full_name, venue_name from every_info where client_id between 1 and 3;
 
 select client_id, full_name from clients_info limit 2 offset 2;
+
+select distinct full_name, event_name from events_info where full_name like "M%";
+
+select min(client_id) from clients_info ;
+select max(client_id) from clients_info ;
+
+select * from clients_info;
+
+select * from clients_number;
+
+delete from clients_number where client_number = "5559876543";
+
+select * from venues ;
+
+select e.event_name, v.venue_name 
+from events e
+join venues v
+on 
+e.client_id = v.client_id;
+
+SELECT DISTINCT
+    ci.client_id, 
+    ci.full_name, 
+    e.event_name 
+FROM 
+    clients_info ci
+LEFT JOIN 
+    events e 
+ON 
+    ci.client_id = e.client_id;
+    
+    SELECT DISTINCT
+    e.event_name, 
+    ci.full_name 
+FROM 
+    events e
+RIGHT JOIN 
+    clients_info ci 
+ON 
+    e.client_id = ci.client_id;
+    
+select full_name from clients_info
+union
+select event_name from events;
+
+select * from events_info;
+
+select * from payments;
+
+update payments 
+set pay_status = "Paid"
+where client_id = 4;
+
+select * from clients_name;
+
+desc clients_name;
+
+alter table clients_name
+modify column first_name varchar ( 200 );
