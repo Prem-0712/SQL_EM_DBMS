@@ -373,3 +373,55 @@ desc clients_name;
 
 alter table clients_name
 modify column first_name varchar ( 200 );
+
+alter table clients_name
+add column price int;
+
+desc clients_name;
+
+alter table clients_name
+change column f_name first_name varchar (100);
+
+select * from clients_name;
+select * from events;
+
+SELECT 
+    CONCAT(cn.first_name, ' ', cn.last_name) AS full_name, 
+    COUNT(e.event_id) AS event_count
+FROM 
+    events e
+JOIN 
+    clients_name cn 
+ON 
+    e.client_id = cn.client_id
+GROUP BY 
+    cn.first_name, cn.last_name
+HAVING 
+    COUNT(e.event_id) > 1;
+
+
+
+
+alter table clients_name
+drop column price;
+
+select * from clients_name;
+
+SELECT 
+    CONCAT(cn.first_name, ' ', cn.last_name) AS full_name
+FROM 
+    clients_name cn
+WHERE 
+    cn.client_id IN (
+        SELECT DISTINCT e.client_id
+        FROM events e
+    );
+    
+    
+SELECT LENGTH('Event Manager') AS string_length;
+
+SELECT UPPER('Event Manager') AS upper_case;
+
+SELECT REPLACE('Event Manager', 'Event', 'Task') AS replaced_string;
+
+SELECT REVERSE('Event Manager') AS reversed_string;
