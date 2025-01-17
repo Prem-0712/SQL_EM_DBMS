@@ -289,6 +289,8 @@ JOIN
     
 select * from every_info;
 
+select distinct * from every_info where client_id between 1 and 3; 
+
 show tables; 
 
 desc clients_name;
@@ -296,3 +298,19 @@ desc clients_name;
 
 select full_name, event_name from every_info where pay_status =  (select pay_status from every_info where pay_status != "pending" and event_name = "Wedding Reception");
 
+SELECT 
+    ci.client_id, 
+    ci.full_name, 
+    COUNT(e.event_id) AS total_events
+FROM 
+    clients_info ci
+JOIN 
+    events e ON ci.client_id = e.client_id
+GROUP BY 
+    ci.client_id, ci.full_name
+HAVING 
+    COUNT(e.event_id) > 1;
+    
+select distinct full_name, venue_name from every_info where client_id between 1 and 3;
+
+select client_id, full_name from clients_info limit 2 offset 2;
