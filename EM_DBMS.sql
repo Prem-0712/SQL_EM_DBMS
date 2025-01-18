@@ -157,6 +157,8 @@ ON
     
 select * from clients_info;
 
+use event_manager_db;
+
 select * from clients_name
 left join clients_number
 on clients_name.client_id = clients_number.client_id;	
@@ -425,3 +427,147 @@ SELECT UPPER('Event Manager') AS upper_case;
 SELECT REPLACE('Event Manager', 'Event', 'Task') AS replaced_string;
 
 SELECT REVERSE('Event Manager') AS reversed_string;
+
+select * from clients_info;
+
+create table clients
+(
+	client_id int auto_increment primary key,
+    first_name varchar ( 100 ),
+    last_name varchar ( 100 ),
+    client_number varchar ( 100 )
+);
+
+insert into clients ( first_name, last_name, client_number )
+values ( "Monique", "Diack", "1094763928, 1935274936" ),
+( "Sibilla", "Maryman", "8329017564" ),
+( "Willy", "Grigolashvill", "2745372910, 4653729064" ),
+( "John", "Doe", "1234567890, 9876543210" ),
+( "Jane", "Smith", "5551234567, 5551112222" );
+
+DELIMITER //
+
+CREATE PROCEDURE GetAllClients()
+BEGIN
+    SELECT * FROM clients_name;
+END //
+
+DELIMITER ;
+
+call GetAllClients();
+
+DELIMITER //
+
+CREATE PROCEDURE GetClientByID(IN clientID INT)
+BEGIN
+    SELECT * 
+    FROM clients_name 
+    WHERE client_id = clientID;
+END //
+
+DELIMITER ;
+
+call GetClientById(5);
+
+DELIMITER //
+
+DELIMITER //
+
+CREATE PROCEDURE GetClientNameByID(IN clientID INT, OUT fullName VARCHAR(200))
+BEGIN
+    SELECT CONCAT(first_name, ' ', last_name) 
+    INTO fullName 
+    FROM clients_name 
+    WHERE client_id = clientID;
+END //
+
+DELIMITER ;
+
+
+SET @fullName = 'Jane Smith';
+
+
+CALL GetClientNameByID(1, @fullName);
+
+
+SELECT @fullName AS FullName;
+
+DELIMITER //
+
+CREATE FUNCTION GetFullName(clientID INT)
+RETURNS VARCHAR(200)
+DETERMINISTIC
+BEGIN
+    DECLARE fullName VARCHAR(200);
+
+    
+    SELECT CONCAT(first_name, ' ', last_name)
+    INTO fullName
+    FROM clients_name
+    WHERE client_id = clientID;
+
+    RETURN fullName;
+END //
+
+DELIMITER ;
+
+
+SELECT GetFullName(1) AS FullName;
+
+DELIMITER //
+
+CREATE PROCEDURE UseCursorExample()
+BEGIN
+    
+    DECLARE clientId INT;
+    DECLARE fullName VARCHAR(200);
+    DECLARE done INT DEFAULT 0;
+
+    DECLARE cursor_clients CURSOR FOR
+        SELECT client_id, CONCAT(first_name, ' ', last_name) AS full_name
+        FROM clients_name;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+    OPEN cursor_clients;
+    
+    read_loop: LOOP
+        FETCH cursor_clients INTO clientId, fullName;
+        IF done THEN
+            LEAVE read_loop; 
+        END IF;
+        
+        SELECT clientId AS ClientID, fullName AS FullName;
+    END LOOP;
+    
+    CLOSE cursor_clients;
+END //
+
+DELIMITER ;
+
+SELECT GetFullName(1) AS FullName;
+
+
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    last_updated TIMESTAMP
+);
+
+DELIMITER //
+
+CREATE TRIGGER update_last_updated
+BEFORE UPDATE ON users
+FOR EACH ROW
+BEGIN
+    SET NEW.last_updated = NOW();
+END //
+
+DELIMITER ;
+
+
+
+
+
+
