@@ -4,6 +4,8 @@ show tables ;
 
 desc clients_name;
 
+select * from tasks;
+
 create table clients_name 
 (
 	client_id int auto_increment primary key,
@@ -566,8 +568,12 @@ END //
 
 DELIMITER ;
 
+select * from every_info order by (client_id) desc;
+use event_manager_db;
 
-
-
-
-
+select concat( c.first_name, " ", c.last_name ) as full_name, count(e.event_id) as event_count
+from events e
+join clients_name c
+on e.client_id = c. client_id
+group by c.full_name
+having count(e.event_id)> 1;
